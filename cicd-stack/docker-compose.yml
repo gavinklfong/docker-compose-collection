@@ -1,0 +1,60 @@
+#
+# Server stack - Jenkins, Sonarqube and PostgreSQL
+#
+# NOTE:
+# If you run docker on Linux docker machine and encounter issue related to insufficient VM memory, 
+# then please adjust VM memory in /etc/sysctl.conf
+#     vm.max_map_count=262144
+#
+version: "2"
+
+services:
+  jenkins:
+    image: jenkins/jenkins
+    ports:
+      - "8080:8080"
+    networks:
+      - cicdnet
+    volumes:
+      - jenkins_home:/var/jenkins_home
+  sonarqube:
+    image: sonarqube:community
+    depends_on:
+      - postgresql
+    ports:
+      - "9000:9000"
+    networks:
+      - cicdnet
+    environment:
+      SONAR_JDBC_URL: jdbc:postgresql://postgresql:5432/sonar
+      SONAR_JDBC_USERNAME: sonar
+      SONAR_JDBC_PASSWORD: sonar
+    volumes:
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_extensions:/opt/sonarqube/extensions
+      - sonarqube_logs:/opt/sonarqube/logs
+      - sonarqube_temp:/opt/sonarqube/temp
+  postgresql:
+    image: postgres
+    networks:
+      - cicdnet
+    environment:
+      POSTGRES_USER: sonar
+      POSTGRES_PASSWORD: sonar
+    volumes:
+      - postgresql:/var/lib/postgresql
+      # This needs explicit mapping due to https://github.com/docker-library/postgres/blob/4e48e3228a30763913ece952c611e5e9b95c8759/Dockerfile.template#L52
+      - postgresql_data:/var/lib/postgresql/data
+
+networks:
+  cicdnet:
+    driver: bridge
+
+volumes:
+  jenkins_home:
+  sonarqube_data:
+  sonarqube_extensions:
+  sonarqube_logs:
+  sonarqube_temp:
+  postgresql:
+  postgresql_data:

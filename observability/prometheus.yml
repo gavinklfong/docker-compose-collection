@@ -1,0 +1,8 @@
+global:
+    scrape_interval: 3s
+    external_labels:
+        monitor: 'es-monitor'
+scrape_configs:
+  - job_name: 'esexporter'
+    static_configs:
+      - targets: ['esexporter:9114']

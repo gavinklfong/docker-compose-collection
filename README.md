@@ -2,6 +2,14 @@
 
 A collection of docker compose for various cases
 
+- Bitcoin node
+- CI/CD
+- Elasticsearch
+- Keycloak
+- Mongodb
+- MySQL
+- Observability
+
 ## CI/CD Server Stack
 
 **cicd-stack** consists of Jenkins, Sonarqube and PostgreSQL.

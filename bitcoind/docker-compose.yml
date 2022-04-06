@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+  bitcoind:
+    container_name: bitcoind
+    build:
+      context: ./
+    volumes:
+      - ./bitcoind-data:/home/bitcoind/data
+      - ./bitcoind-config/bitcoin.conf:/home/bitcoind/bitcoin.conf
+    ports:
+      - 28332:28332
+      - 8089:8089
+      - 18444:18444
+    command: bitcoind -regtest -conf=/home/bitcoind/bitcoin.conf -datadir=/home/bitcoind/data -deprecatedrpc=generate -fallbackfee=0.00002

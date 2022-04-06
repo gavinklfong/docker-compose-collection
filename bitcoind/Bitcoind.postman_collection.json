@@ -1,0 +1,470 @@
+{
+	"info": {
+		"_postman_id": "7bfb9de3-f3a2-4f8c-ba83-6c84765ecc3f",
+		"name": "Bitcoind",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Wallet",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"var walletName = jsonData.result.name;",
+							"",
+							"pm.environment.set(\"wallet_name\", walletName);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"jsonrpc\": \"1.0\",\n\"id\": \"curltext\",\n\"method\": \"createwallet\",\n\"params\": [\"testwallet\"]\n}"
+				},
+				"url": {
+					"raw": "{{bitcoind_base_url}}",
+					"host": [
+						"{{bitcoind_base_url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Wallet Info",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"var walletAddress = jsonData.result;",
+							"",
+							"pm.environment.set(\"walletAddress\", walletAddress);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"jsonrpc\": \"1.0\",\n\"id\": \"curltext\",\n\"method\": \"getwalletinfo\"\n}"
+				},
+				"url": {
+					"raw": "{{bitcoind_base_url}}",
+					"host": [
+						"{{bitcoind_base_url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Load Wallet",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"var walletName = jsonData.result.name;",
+							"",
+							"pm.environment.set(\"wallet_name\", walletName);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"jsonrpc\": \"1.0\",\n\"id\": \"curltext\",\n\"method\": \"loadwallet\",\n\"params\": [\"testwallet\"]\n}"
+				},
+				"url": {
+					"raw": "{{bitcoind_base_url}}",
+					"host": [
+						"{{bitcoind_base_url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Blockchain Info",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"jsonrpc\": \"1.0\",\n\"id\": \"curltext\",\n\"method\": \"getblockchaininfo\",\n\"params\": []\n}"
+				},
+				"url": {
+					"raw": "{{bitcoind_base_url}}",
+					"host": [
+						"{{bitcoind_base_url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Block",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.variables.set(\"block\", \"3f4280ff5c1202a5813851825e85c11a5fdec41ba02cf0239120da2b9e588ec9\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"jsonrpc\": \"1.0\",\n\"id\": \"curltext\",\n\"method\": \"getblock\",\n\"params\": [\"{{block}}\", 2]\n}"
+				},
+				"url": {
+					"raw": "{{bitcoind_base_url}}",
+					"host": [
+						"{{bitcoind_base_url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Raw Transaction",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"jsonrpc\": \"1.0\",\n\"id\": \"curltext\",\n\"method\": \"getrawtransaction\",\n\"params\": [\"46bbe87633ef93cc77afd59df761f5718c9b27aefaa5d834ab8ced7754d824bf\", true]\n}"
+				},
+				"url": {
+					"raw": "{{bitcoind_base_url}}",
+					"host": [
+						"{{bitcoind_base_url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Address Info",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"jsonrpc\": \"1.0\",\n\"id\": \"curltext\",\n\"method\": \"getaddressinfo\",\n\"params\": [\"bcrt1qlgknlnjyjjx0mf76x8zmsa3f5un97xntfaxlu7\"]\n}"
+				},
+				"url": {
+					"raw": "{{bitcoind_base_url}}",
+					"host": [
+						"{{bitcoind_base_url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Address",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"var walletAddress = jsonData.result;",
+							"",
+							"var previousWalletAddress = pm.environment.get(\"wallet_address\");",
+							"pm.environment.set(\"previous_wallet_address\", previousWalletAddress);",
+							"pm.environment.set(\"wallet_address\", walletAddress);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"jsonrpc\": \"1.0\",\n\"id\": \"curltext\",\n\"method\": \"getnewaddress\",\n\"params\": [\"\", \"bech32\"]\n}"
+				},
+				"url": {
+					"raw": "{{bitcoind_base_url}}",
+					"host": [
+						"{{bitcoind_base_url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Send To Address",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"var txHash = jsonData.result;",
+							"",
+							"pm.environment.set(\"tx_hash\", txHash);",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.variables.set(\"wallet_address\", \"msqZd7ZLduMhTrhnFEdE1VLKexeeBsK4j5\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"jsonrpc\": \"1.0\",\n\"id\": \"curltext\",\n\"method\": \"sendtoaddress\",\n\"params\": [\"{{wallet_address}}\", \"0.0005\"]\n}"
+				},
+				"url": {
+					"raw": "{{bitcoind_base_url}}",
+					"host": [
+						"{{bitcoind_base_url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Raw Transaction Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"var walletAddress = jsonData.result;",
+							"",
+							"pm.environment.set(\"walletAddress\", walletAddress);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"jsonrpc\": \"1.0\",\n\"id\": \"curltext\",\n\"method\": \"getrawtransaction\",\n\"params\": [\"{{tx_hash}}\", 1]\n}"
+				},
+				"url": {
+					"raw": "{{bitcoind_base_url}}",
+					"host": [
+						"{{bitcoind_base_url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Generate 101 Blocks To Address (Mining) Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"jsonrpc\": \"1.0\",\n\"id\": \"curltext\",\n\"method\": \"generatetoaddress\",\n\"params\": [101, \"{{wallet_address}}\"]\n}"
+				},
+				"url": {
+					"raw": "{{bitcoind_base_url}}",
+					"host": [
+						"{{bitcoind_base_url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Generate 1 Block To Address (Mining)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"jsonrpc\": \"1.0\",\n\"id\": \"curltext\",\n\"method\": \"generatetoaddress\",\n\"params\": [1, \"{{wallet_address}}\"]\n}"
+				},
+				"url": {
+					"raw": "{{bitcoind_base_url}}",
+					"host": [
+						"{{bitcoind_base_url}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "{{bitcoind_password}}",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "{{bitcoind_user_id}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
